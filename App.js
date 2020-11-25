@@ -7,14 +7,13 @@
  */
 
 import React from 'react';
-import {
-	Text,
-} from 'react-native';
+
+import GameScreen from 'screens/GameScreen';
 
 
 const App = () => {
 	return (
-		<Text>Test</Text>
+		<GameScreen />
 	);
 };
 
