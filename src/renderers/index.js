@@ -1,5 +1,7 @@
-import Entity from './Entity'
+import Entity from './Entity';
+import Monkey from './Monkey';
 
-module.exports = {
-  Entity,
+export {
+	Entity,
+	Monkey,
 }

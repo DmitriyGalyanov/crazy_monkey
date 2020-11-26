@@ -1,5 +1,5 @@
-import CircleButton from './CircleButton'
+import CircleButton from './CircleButton';
 
-module.exports = {
-  CircleButton,
-}
+export {
+	CircleButton,
+};

@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {Dimensions, StatusBar, StyleSheet, Text, View} from 'react-native'
 import Matter from 'matter-js'
 import {GameEngine} from 'react-native-game-engine'
-import {Entity} from './src/renderers/index'
+import {Entity, Monkey} from './src/renderers/index'
 import {
   INITIAL_GRAVITY,
   THEME_COLOR,
@@ -142,8 +142,7 @@ export default class App extends PureComponent {
       player: {
         body: this.playerBox,
         size: [PLAYER_ENTITY_WIDTH, PLAYER_ENTITY_HEIGHT],
-        color: 'blue',
-        renderer: Entity,
+				renderer: Monkey,
       },
       deleted: [],
     }
@@ -183,7 +182,11 @@ export default class App extends PureComponent {
   }
 
   _handleEntityCollision = (entityType) => {
-    const entityDetails = ENTITY_DETAILS[entityType]
+		const entityDetails = ENTITY_DETAILS[entityType]
+		if (entityDetails.name === 'spike') {
+			//game over here
+			this._gameOver();
+		}
 
     // Calculate the effects of the entity
     this.setState((prevState) => ({

@@ -1,6 +1,6 @@
 import Matter from 'matter-js'
 import {Dimensions} from 'react-native'
-import {ENTITY_DETAILS, ENTITY_LIMIT} from '../constants/index'
+import {ENTITY_DETAILS, itemsLimit} from '../constants/index'
 
 const {width} = Dimensions.get('screen')
 
@@ -29,7 +29,7 @@ const addEntity = (engine, entities, entityType, Entity, probability) => {
       /**
        * We enforce a limit on the number of new entities.
        */
-      if (ENTITY_LIMIT > Object.keys(entities).length) {
+      if (itemsLimit > Object.keys(entities).length) {
         _createEntity(engine, entities, Entity, entityDetails, {
           label: entityType,
         })
@@ -139,10 +139,12 @@ const _addEntityToGameEngine = (
   renderer,
 ) => {
   Matter.World.add(engine.world, entity)
+  // console.log(entityDetails)
 
   entities[entity.id] = {
     body: entity,
     size: [entityDetails.width, entityDetails.height],
+    name: entityDetails.name,
     color: entityDetails.color,
     renderer: renderer,
   }
