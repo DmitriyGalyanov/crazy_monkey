@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {
 	Dimensions,
+	ImageBackground,
 	StatusBar,
 	StyleSheet,
 	Text,
@@ -11,7 +12,8 @@ import {GameEngine} from 'react-native-game-engine';
 import {Monkey} from './src/renderers/index';
 import {
   INITIAL_GRAVITY,
-  THEME_COLOR,
+	THEME_COLOR,
+	contrastColor,
   PLAYER_X_START,
   PLAYER_Y_FIXED,
   startingScore,
@@ -31,8 +33,10 @@ import {
   SensorTypes,
 } from 'react-native-sensors';
 import {CircleButton} from './src/components/index';
-import Images from './assets/index';
+import images from 'images';
 import {GameOverScreen, PauseOverlay} from './src/screens/index';
+
+import background from 'images/background.jpg';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -45,7 +49,6 @@ export default class App extends PureComponent {
 			pause: false,
       // Initial game states
       score: startingScore,
-      daysLasted: 0,
       x: PLAYER_X_START,
       y: PLAYER_Y_FIXED,
     }
@@ -65,16 +68,14 @@ export default class App extends PureComponent {
 
     // Accelerometer event listener
     this.accelerometerSubscription = accelerometer.subscribe(({x}) => {
-      if (!this.state.running) {
-        return
-      }
+      if (!this.state.running) return;
 
-      const new_x = this.state.x - x
+      const new_x = this.state.x - x;
 
       // Prevent player entity from moving out of bounds
       if (new_x < PLAYER_WIDTH_OFFSET || new_x > width - PLAYER_WIDTH_OFFSET) {
         return
-      }
+      };
 
       // Update player's position
       Matter.Body.setPosition(this.playerBox, {
@@ -87,13 +88,13 @@ export default class App extends PureComponent {
   };
 
   componentWillUnmount() {
-    this.accelerometerSubscription.unsubscribe()
+    this.accelerometerSubscription.unsubscribe();
   };
 
   _setupWorld = () => {
-    const engine = Matter.Engine.create({enableSleeping: false})
-    const world = engine.world
-    world.gravity.y = INITIAL_GRAVITY
+    const engine = Matter.Engine.create({enableSleeping: false});
+    const world = engine.world;
+    world.gravity.y = INITIAL_GRAVITY;
 
     // Player entity
     this.playerBox = Matter.Bodies.rectangle(
@@ -102,33 +103,33 @@ export default class App extends PureComponent {
 			playerPhysicalWidth,
       playerImgHeight,
       {isStatic: true, label: 'player'},
-    )
+    );
 
-    Matter.World.add(world, this.playerBox)
+    Matter.World.add(world, this.playerBox);
 
-    const playerEntity = this.playerBox.id
+    const playerEntity = this.playerBox.id;
 
     // Collision event handling
     Matter.Events.on(engine, 'collisionStart', (event) => {
       event.pairs.forEach(({bodyA, bodyB}) => {
-        const a = bodyA.id
-        const b = bodyB.id
-        let bodyToRemove = null
-        let entityType = ''
+        const a = bodyA.id;
+        const b = bodyB.id;
+        let bodyToRemove = null;
+        let entityType = '';
 
         // Only interested in collision between player and other entities
         if (a !== playerEntity && b === playerEntity) {
-          bodyToRemove = bodyA
-          entityType = bodyA.label
+          bodyToRemove = bodyA;
+          entityType = bodyA.label;
         }
         if (b !== playerEntity && a === playerEntity) {
-          bodyToRemove = bodyB
-          entityType = bodyB.label
+          bodyToRemove = bodyB;
+          entityType = bodyB.label;
         }
 
         if (bodyToRemove) {
           // Remove the entity that collides with player
-          removeEntity(bodyToRemove, this.entities)
+          removeEntity(bodyToRemove, this.entities);
 
           // Handle the collision effect
           if (this.gameEngine) {
@@ -215,7 +216,6 @@ export default class App extends PureComponent {
 			pause: false,
       // Initial game states
       score: startingScore,
-      daysLasted: 0,
       x: PLAYER_X_START,
       y: PLAYER_Y_FIXED,
     });
@@ -225,22 +225,27 @@ export default class App extends PureComponent {
     const {score, running, pause} = this.state;
 
     return (
-      <View style={styles.container}>
-        <StatusBar hidden={true} />
+			<ImageBackground
+				source={background}
+				style={styles.container}
+			>
+				<StatusBar hidden={true} />
         <View style={styles.container}>
           <View style={styles.topContainer}>
             <View style={styles.statRow}>
               <View style={{flex: 3}}>
                 <View style={styles.scoreContainer}>
-                  <Text style={[styles.score, {color: THEME_COLOR}]}>{score}</Text>
+                  <Text style={[styles.score, {color: contrastColor}]}>{score}</Text>
                 </View>
               </View>
-              <CircleButton
-                image={Images.settings}
-								onPress={this.setPause}
-                borderStyle={styles.settingsBtnBorder}
-                iconStyle={styles.settingsBtnIcon}
-              />
+							{!pause && running && (
+								<CircleButton
+									image={images.pause}
+									onPress={this.setPause}
+									borderStyle={styles.settingsBtnBorder}
+									iconStyle={styles.settingsBtnIcon}
+								/>
+							)}
             </View>
           </View>
           <GameEngine
@@ -258,57 +263,56 @@ export default class App extends PureComponent {
 						<GameOverScreen score={score} reset={this._reset} />
 					)}
         </View>
-      </View>
+      </ImageBackground>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  gameContainer: {
-    position: 'absolute',
-    top: height * 0.2,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  topContainer: {
-    flexDirection: 'column',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  statRow: {
-    flex: 0.9,
-    flexDirection: 'row',
-  },
-  scoreContainer: {
-    alignSelf: 'center',
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  score: {
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  settingsBtnBorder: {
-    top: 10,
-    height: 50,
-    width: 50,
-    zIndex: 2,
-    marginRight: 10,
-  },
-  settingsBtnIcon: {
-    width: 50,
-    height: 50,
-    tintColor: THEME_COLOR,
-  },
+	container: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	gameContainer: {
+		position: 'absolute',
+		top: height * 0.2,
+		bottom: 0,
+		left: 0,
+		right: 0,
+	},
+	topContainer: {
+		flexDirection: 'column',
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+	},
+	statRow: {
+		flex: 0.9,
+		flexDirection: 'row',
+	},
+	scoreContainer: {
+		alignSelf: 'center',
+		flexDirection: 'row',
+		marginTop: 10,
+	},
+	score: {
+		textAlign: 'center',
+		fontSize: 24,
+		fontWeight: 'bold',
+	},
+	settingsBtnBorder: {
+		top: 10,
+		height: 50,
+		width: 50,
+		zIndex: 2,
+		marginRight: 10,
+	},
+	settingsBtnIcon: {
+		width: 50,
+		height: 50,
+		tintColor: contrastColor,
+	},
 });

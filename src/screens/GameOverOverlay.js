@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {Dimensions, StyleSheet, View, Text} from 'react-native'
-import {CircleButton} from '../components/index'
-import Images from '../../assets/index'
-import {THEME_COLOR} from '../constants/index'
+import React from 'react';
+import {Dimensions, StyleSheet, View, Text} from 'react-native';
+import {CircleButton} from '../components/index';
+import images from 'images';
+import {THEME_COLOR} from '../constants/index';
 
 const {height} = Dimensions.get('window')
 
@@ -20,7 +20,7 @@ export default function GameOverScreen({score, reset}) {
 			</View>
 			<View style={styles.btnsContainer}>
 				<CircleButton
-					image={Images.restart}
+					image={images.restart}
 					onPress={reset}
 					borderStyle={styles.restartBtnBorder}
 					iconStyle={styles.restartBtnIcon}

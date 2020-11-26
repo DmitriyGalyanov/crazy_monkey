@@ -1,8 +1,8 @@
-import React, {PureComponent} from 'react'
-import {View, StyleSheet, Text} from 'react-native'
-import {CircleButton} from '../components/index'
-import Images from '../../assets/index'
-import {THEME_COLOR} from '../constants/index'
+import React from 'react';
+import {View, StyleSheet, Text} from 'react-native';
+import {CircleButton} from '../components/index';
+import images from 'images';
+import {THEME_COLOR} from '../constants/index';
 
 export default function PauseOverlay({onPress}) {
 
@@ -14,7 +14,7 @@ export default function PauseOverlay({onPress}) {
 			</View>
 			<View style={styles.btnsContainer}>
 				<CircleButton
-					image={Images.back}
+					image={images.back}
 					onPress={onPress}
 					borderStyle={styles.btnBorder}
 					iconStyle={styles.btnIcon}

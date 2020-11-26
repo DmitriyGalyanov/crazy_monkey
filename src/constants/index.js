@@ -11,9 +11,9 @@ export const itemDims = {
 
 // World settings
 export const INITIAL_GRAVITY = 0.15;
-export const DAY_INTERVAL = 10000;
 export const startingScore = 0;
-export const THEME_COLOR = 'black';
+export const THEME_COLOR = '#111';
+export const contrastColor = 'white';
 export const DEFAULT_ACCELERATOR_INTERVAL = 20;
 
 // falling items settings
