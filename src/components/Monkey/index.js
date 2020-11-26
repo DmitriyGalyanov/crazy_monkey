@@ -4,7 +4,7 @@ import {Image, View} from 'react-native';
 
 import monkeyImg from 'images/monkey.png';
 
-import {monkeyDims, monkeyTopOffset} from '../../../constants'; //mda
+import {monkeyDims, bottomPadding} from '../../../constants'; //mda
 
 
 export default function Monkey({positionX}) {
@@ -16,9 +16,9 @@ export default function Monkey({positionX}) {
 				style={{
 					width: monkeyDims.width,
 					height: monkeyDims.height,
+					position: 'absolute',
 					left: positionX,
-					// bottom: 100,
-					top: monkeyTopOffset,
+					bottom: bottomPadding,
 				}}
 			/>
 	)

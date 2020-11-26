@@ -7,10 +7,17 @@ export const monkeyDims = {
 	height: 280,
 };
 
+export const itemDims = {
+	width: 113,
+	height: 100,
+};
+
+export const itemFallSpeed = 10;
+
 export const bottomPadding = 20;
 export const horizontalOffset = 10;
 
-export const monkeyTopOffset = windowHeight - monkeyDims.height - bottomPadding;
+// export const monkeyTopOffset = windowHeight - monkeyDims.height - bottomPadding;
 
 export {
 	windowWidth,

@@ -11,8 +11,8 @@ import {
 
 import background from 'images/background.jpg';
 
-import { Finger } from './renderers';
 import Monkey from 'components/Monkey';
+import Item from 'components/Item';
 
 import GameLoop from './systems';
 
@@ -25,14 +25,13 @@ export default function GameScreen() {
 			style={styles.container}
 		>
 			<GameEngine
-				// ref={(ref) => { this.engine = ref; }}
 				style={styles.container}
 				systems={[ GameLoop ]}
 				entities={{
-					0: { positionX: 40, renderer: <Monkey />},
-					// 1: { positionX: 50, renderer: <Finger />},
+					monkey: { positionX: 40, renderer: <Monkey />},
+					1: { itemImageNumber: 1, renderer: <Item />},
 				}}
-				//Notice that each entity has a unique id (required) and a renderer property (optional). If no renderer is supplied with the entity - it won't get displayed.
+				
 			>
 				<StatusBar hidden={true} />
 			</GameEngine>
