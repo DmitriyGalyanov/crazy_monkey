@@ -1,8 +1,6 @@
 import Matter from 'matter-js';
-import {Dimensions} from 'react-native';
 import {ENTITY_DETAILS, itemsLimit, windowWidth} from 'constants';
 
-const {width} = Dimensions.get('window');
 
 /**
  * Create and add an entity to the game engine.
@@ -139,7 +137,6 @@ const _addEntityToGameEngine = (
   renderer,
 ) => {
   Matter.World.add(engine.world, entity)
-  // console.log(entityDetails)
 
   entities[entity.id] = {
     body: entity,

@@ -1,10 +1,9 @@
 import React from 'react';
-import {Dimensions, StyleSheet, View, Text} from 'react-native';
-import {CircleButton} from '../components/index';
+import {StyleSheet, View, Text} from 'react-native';
+import {CircleButton} from 'components';
 import images from 'images';
-import {THEME_COLOR} from '../constants/index';
+import {THEME_COLOR, windowHeight} from 'constants';
 
-const {height} = Dimensions.get('window')
 
 export default function GameOverScreen({score, reset}) {
 	const pointsToDisplay = score === 1
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 	gameOverContainer: {
 		flex: 1,
-		marginTop: height * 0.1,
+		marginTop: windowHeight * 0.1,
 		alignItems: 'center',
 	},
 	statsText: {

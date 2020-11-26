@@ -1,22 +1,23 @@
-import {Dimensions} from 'react-native'
-import {removeEntity} from '../helpers/index'
+import {removeEntity} from 'helpers';
+import {windowWidth, windowHeight, playerImgHeight} from 'constants';
 
-const {width, height} = Dimensions.get('screen')
 
 const Destroyer = (entities) => {
-  Object.keys(entities).forEach((key) => {
-    const entity = entities[key]
-    if (entity.body) {
-      const position = entity.body.position
+	Object.keys(entities).forEach((key) => {
+		const entity = entities[key];
+		if (entity.body) {
+			const position = entity.body.position;
+			// if (position.y > windowHeight - playerImgHeight / 2) {
+			// 	console.log('position y:', position.y, 'player img height:', playerImgHeight)
+			// }
+			// Remove entities that fall out of bounds
+			if (position.x < 0 || position.x > windowWidth || position.y > windowHeight) {
+				removeEntity(entity.body, entities);
+			}
+		}
+	})
 
-      // Remove entities that fall out of bounds
-      if (position.x < 0 || position.x > width || position.y > height) {
-        removeEntity(entity.body, entities)
-      }
-    }
-  })
-
-  return entities
+	return entities;
 }
 
-export default Destroyer
+export default Destroyer;

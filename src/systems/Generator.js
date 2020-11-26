@@ -1,6 +1,7 @@
-import {ENTITY_LIST, ENTITY_DETAILS} from '../constants/index'
-import {Entity} from '../renderers/index'
-import {addEntity} from '../helpers/index'
+import {ENTITY_LIST, ENTITY_DETAILS} from 'constants'
+import {Entity} from 'renderers'
+import {addEntity} from 'helpers'
+
 
 const Generator = (entities) => {
   const engine = entities.physics.engine
