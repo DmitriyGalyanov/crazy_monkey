@@ -12,7 +12,7 @@ export const itemDims = {
 // World settings
 export const INITIAL_GRAVITY = 0.15;
 export const DAY_INTERVAL = 10000;
-export const STARTING_CASH = 0;
+export const startingScore = 0;
 export const THEME_COLOR = 'black';
 export const DEFAULT_ACCELERATOR_INTERVAL = 20;
 
@@ -74,15 +74,12 @@ export const ENTITY_DETAILS = {
 }
 
 // Player entity settings
-export const playerImgWidth = 168;
-export const playerImgHeight = 280;
 export const playerPhysicalWidth = 100;
 export const playerPhysicalHeight = 100;
-
-export const playerEntityWidth = 168;
-export const playerEntityHeight = 280;
+export const playerImgWidth = 168;
+export const playerImgHeight = 280;
 
 export const PLAYER_X_START = windowWidth / 2;
-export const PLAYER_Y_FIXED = windowHeight - playerEntityHeight - bottomPadding - 24;
+export const PLAYER_Y_FIXED = windowHeight - playerImgHeight - bottomPadding - 24;
 
-export const PLAYER_WIDTH_OFFSET = Math.ceil(playerEntityWidth / 2); //
+export const PLAYER_WIDTH_OFFSET = Math.ceil(playerImgWidth / 2); //

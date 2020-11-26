@@ -1,7 +1,8 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image} from 'react-native';
 
 import images from 'images/itemImages';
+
 
 export default function item({size, name, body}) {
 	const width = size[0];

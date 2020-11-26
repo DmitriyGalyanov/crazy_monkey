@@ -4,4 +4,4 @@ import Monkey from './Monkey';
 export {
 	Entity,
 	Monkey,
-}
+};

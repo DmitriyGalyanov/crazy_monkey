@@ -1,35 +1,40 @@
-import React, {PureComponent} from 'react'
-import {Dimensions, StatusBar, StyleSheet, Text, View} from 'react-native'
-import Matter from 'matter-js'
-import {GameEngine} from 'react-native-game-engine'
-import {Entity, Monkey} from './src/renderers/index'
+import React, {PureComponent} from 'react';
+import {
+	Dimensions,
+	StatusBar,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
+import Matter from 'matter-js';
+import {GameEngine} from 'react-native-game-engine';
+import {Monkey} from './src/renderers/index';
 import {
   INITIAL_GRAVITY,
   THEME_COLOR,
-  // DAY_INTERVAL,
   PLAYER_X_START,
   PLAYER_Y_FIXED,
-  STARTING_CASH,
-	playerEntityWidth,
+  startingScore,
+	playerImgWidth,
 	playerPhysicalWidth,
-  playerEntityHeight,
+  playerImgHeight,
   PLAYER_WIDTH_OFFSET,
   DEFAULT_ACCELERATOR_INTERVAL,
   ENTITY_DETAILS,
-} from './src/constants/index'
-import {Physics, Generator, Destroyer} from './src/systems/index'
-import {removeEntity} from './src/helpers/index'
+} from './src/constants/index';
+import {Physics, Generator, Destroyer} from './src/systems/index';
+import {removeEntity} from './src/helpers/index';
 import {
   accelerometer,
   setLogLevelForType,
   setUpdateIntervalForType,
   SensorTypes,
-} from 'react-native-sensors'
-import {CircleButton} from './src/components/index'
-import Images from './assets/index'
-import {GameOverScreen, PauseOverlay} from './src/screens/index'
+} from 'react-native-sensors';
+import {CircleButton} from './src/components/index';
+import Images from './assets/index';
+import {GameOverScreen, PauseOverlay} from './src/screens/index';
 
-const {width, height} = Dimensions.get('screen')
+const {width, height} = Dimensions.get('screen');
 
 export default class App extends PureComponent {
   constructor(props) {
@@ -39,14 +44,14 @@ export default class App extends PureComponent {
       running: true,
 			pause: false,
       // Initial game states
-      score: STARTING_CASH,
+      score: startingScore,
       daysLasted: 0,
       x: PLAYER_X_START,
       y: PLAYER_Y_FIXED,
     }
 
-    this.gameEngine = null
-    this.entities = this._setupWorld()
+    this.gameEngine = null;
+    this.entities = this._setupWorld();
   }
 
   componentDidMount() {
@@ -79,11 +84,11 @@ export default class App extends PureComponent {
 
       this.setState({x: new_x})
     })
-  }
+  };
 
   componentWillUnmount() {
     this.accelerometerSubscription.unsubscribe()
-  }
+  };
 
   _setupWorld = () => {
     const engine = Matter.Engine.create({enableSleeping: false})
@@ -95,7 +100,7 @@ export default class App extends PureComponent {
       PLAYER_X_START,
       PLAYER_Y_FIXED,
 			playerPhysicalWidth,
-      playerEntityHeight,
+      playerImgHeight,
       {isStatic: true, label: 'player'},
     )
 
@@ -141,13 +146,13 @@ export default class App extends PureComponent {
       physics: {engine: engine, world: world},
       player: {
         body: this.playerBox,
-				size: [playerEntityWidth, playerEntityHeight],
+				size: [playerImgWidth, playerImgHeight],
 				// physicalWidth: playerPhysicalWidth,
 				renderer: Monkey,
       },
       deleted: [],
     }
-  }
+  };
 
   // Game mechanics happen here
   _onEvent = (e) => {
@@ -159,7 +164,7 @@ export default class App extends PureComponent {
         this._handleEntityCollision(e.entityType, e.xPos)
         break
     }
-  }
+  };
 
   _handleEntityCollision = (entityType) => {
 		const entityDetails = ENTITY_DETAILS[entityType]
@@ -171,14 +176,14 @@ export default class App extends PureComponent {
     this.setState((prevState) => ({
       score: prevState.score + entityDetails.score,
     }))
-	}
+	};
 	
 	setPause = () => {
 		this.setState({running: false, pause: true});
 	};
 	removePause = () => {
 		this.setState({running: true, pause: false});
-	}
+	};
 
   /**
    * Remove all non-player entities and prepare for a new game
@@ -190,18 +195,18 @@ export default class App extends PureComponent {
           this.entities.physics.world,
           this.entities[key].body,
         )
-        delete this.entities[key]
+        delete this.entities[key];
       }
     })
 
-    this.entities.deleted = []
-  }
+    this.entities.deleted = [];
+  };
 
   _gameOver = () => {
     this.setState({
       running: false,
-    })
-  }
+    });
+  };
 
   _reset = () => {
     this._resetEntities()
@@ -209,18 +214,15 @@ export default class App extends PureComponent {
       running: true,
 			pause: false,
       // Initial game states
-      // interval: 0,
-      score: STARTING_CASH,
+      score: startingScore,
       daysLasted: 0,
       x: PLAYER_X_START,
       y: PLAYER_Y_FIXED,
-    })
-  }
+    });
+  };
 
   render() {
-    const {score, daysLasted, running, pause} = this.state
-
-    const scoreStyle = score < 0 ? {color: '#9E0000'} : {color: 'green'}
+    const {score, running, pause} = this.state;
 
     return (
       <View style={styles.container}>
@@ -230,7 +232,7 @@ export default class App extends PureComponent {
             <View style={styles.statRow}>
               <View style={{flex: 3}}>
                 <View style={styles.scoreContainer}>
-                  <Text style={[styles.score, scoreStyle]}>{score}</Text>
+                  <Text style={[styles.score, {color: THEME_COLOR}]}>{score}</Text>
                 </View>
               </View>
               <CircleButton
@@ -252,12 +254,9 @@ export default class App extends PureComponent {
 					{!running && pause && (
 						<PauseOverlay onPress={this.removePause} />
 					)}
-          {/* {!running && !pause && (
-            <GameOverScreen daysLasted={daysLasted} reset={this._reset} />
-          )} */}
 					{!running && !pause && (
-            <GameOverScreen score={score} reset={this._reset} />
-          )}
+						<GameOverScreen score={score} reset={this._reset} />
+					)}
         </View>
       </View>
     )
@@ -312,4 +311,4 @@ const styles = StyleSheet.create({
     height: 50,
     tintColor: THEME_COLOR,
   },
-})
+});

@@ -1,8 +1,8 @@
-import Matter from 'matter-js'
-import {Dimensions} from 'react-native'
-import {ENTITY_DETAILS, itemsLimit} from '../constants/index'
+import Matter from 'matter-js';
+import {Dimensions} from 'react-native';
+import {ENTITY_DETAILS, itemsLimit} from '../constants/index';
 
-const {width} = Dimensions.get('screen')
+const {width} = Dimensions.get('window');
 
 /**
  * Create and add an entity to the game engine.

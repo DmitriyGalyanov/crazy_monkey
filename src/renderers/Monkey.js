@@ -11,17 +11,16 @@ export default function Monkey({size, body}) {
 	const x = body.position.x - width / 2;
 	const y = body.position.y - height / 2;
 
-
 	return (
-			<Image
-				source={monkeyImg}
-				style={{
-					width: width,
-					height: height,
-					position: 'absolute',
-					left: x,
-					top: y,
-				}}
-			/>
+		<Image
+			source={monkeyImg}
+			style={{
+				width: width,
+				height: height,
+				position: 'absolute',
+				left: x,
+				top: y,
+			}}
+		/>
 	)
 }

@@ -1,7 +1,7 @@
-import {addEntity, removeEntity, getRandomInt} from './entity'
+import {addEntity, removeEntity, getRandomInt} from './entity';
 
-module.exports = {
-  addEntity,
-  removeEntity,
-  getRandomInt,
-}
+export {
+	addEntity,
+	removeEntity,
+	getRandomInt,
+};

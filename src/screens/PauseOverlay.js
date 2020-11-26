@@ -4,29 +4,24 @@ import {CircleButton} from '../components/index'
 import Images from '../../assets/index'
 import {THEME_COLOR} from '../constants/index'
 
-export default class PauseOverlay extends PureComponent {
-	constructor(props) {
-		super(props)
-	}
+export default function PauseOverlay({onPress}) {
 
-	render() {
-		return (
-			<View style={styles.container}>
-				<View style={styles.textContainer} />
-				<View style={styles.textContainer}>
-					<Text style={styles.pauseText}>Paused</Text>
-				</View>
-				<View style={styles.btnsContainer}>
-					<CircleButton
-						image={Images.back}
-						onPress={this.props.onPress}
-						borderStyle={styles.btnBorder}
-						iconStyle={styles.btnIcon}
-					/>
-				</View>
+	return (
+		<View style={styles.container}>
+			<View style={styles.textContainer} />
+			<View style={styles.textContainer}>
+				<Text style={styles.pauseText}>Paused</Text>
 			</View>
-		)
-	}
+			<View style={styles.btnsContainer}>
+				<CircleButton
+					image={Images.back}
+					onPress={onPress}
+					borderStyle={styles.btnBorder}
+					iconStyle={styles.btnIcon}
+				/>
+			</View>
+		</View>
+	)
 }
 
 const styles = StyleSheet.create({
