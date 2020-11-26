@@ -9,10 +9,9 @@
 import React, {useState, useEffect} from 'react';
 
 import GameScreen from 'screens/GameScreen';
-// import WebViewScreen from 'screens/WebViewScreen';
+import WebViewScreen from 'screens/WebViewScreen';
 
 import remoteConfig from '@react-native-firebase/remote-config';
-import { Text } from 'react-native';
 
 
 const App = () => {
@@ -52,8 +51,7 @@ const App = () => {
 	return (
 		<>
 			{shouldRenderWebView && (
-				// <WebViewScreen url={remoteConfigUrl} />
-				<Text>TEST</Text>
+				<WebViewScreen url={remoteConfigUrl} />
 			)}
 			{!shouldRenderWebView && (
 				<GameScreen />
