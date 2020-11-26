@@ -1,22 +1,20 @@
+import {monkeyDims, windowWidth, horizontalOffset} from '../../../constants';
+
 const GameLoop = (entities, { touches }) => {
-	
 
-	//-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
-	//-- There's nothing stopping you from treating the game state as immutable and returning a copy..
-	//-- Example: return { ...entities, t.id: { UPDATED COMPONENTS }};
-	//-- That said, it's probably worth considering performance implications in either case.
+	touches.filter(touch => touch.type === "move").forEach(touch => {
 
-	touches.filter(t => t.type === "move").forEach(t => {
-		// console.log(touches, 'up')
-		// console.log(entities)
-		let finger = entities[t.id + 1];
-		console.log(finger)
-		if (finger && finger.position) {
-			// console.log(touches)
-			finger.position = [
-				finger.position[0] + t.delta.pageX,
-				finger.position[1] + t.delta.pageY
-			];
+		let monkey = entities[0];
+
+		if (monkey && monkey.positionX) {
+			let newMonkeyPositionX = monkey.positionX + touch.delta.pageX;
+			if (newMonkeyPositionX >= windowWidth - monkeyDims.width - horizontalOffset) {
+				newMonkeyPositionX = windowWidth - monkeyDims.width - horizontalOffset;
+			}
+			if (newMonkeyPositionX <= 0 + horizontalOffset) {
+				newMonkeyPositionX = 1 + horizontalOffset;
+			}
+			monkey.positionX = newMonkeyPositionX;
 		}
 	});
 
