@@ -1,6 +1,7 @@
 import {Dimensions} from 'react-native';
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+export {windowWidth, windowHeight};
 
 export const bottomPadding = 24;
 
@@ -83,4 +84,5 @@ export const PLAYER_X_START = windowWidth / 2;
 // export const PLAYER_Y_FIXED = windowHeight - playerImgHeight - bottomPadding - 24;
 export const PLAYER_Y_FIXED = windowHeight - playerImgHeight * 1.5;
 
+export const horizontalOffset = 12;
 export const PLAYER_WIDTH_OFFSET = Math.ceil(playerImgWidth / 2); //

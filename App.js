@@ -21,9 +21,10 @@ import {
 	playerPhysicalWidth,
   playerImgHeight,
   PLAYER_WIDTH_OFFSET,
-  DEFAULT_ACCELERATOR_INTERVAL,
+	DEFAULT_ACCELERATOR_INTERVAL,
+	windowWidth,
   ENTITY_DETAILS,
-} from './src/constants/index';
+} from './src/constants';
 import {Physics, Generator, Destroyer} from './src/systems/index';
 import {removeEntity} from './src/helpers/index';
 import {
@@ -55,41 +56,64 @@ export default class App extends PureComponent {
 
     this.gameEngine = null;
     this.entities = this._setupWorld();
-  }
+	}
+	
+	monkeyMovement = (entities, { touches }) => {
+		touches.filter(touch => touch.type === "move").forEach(touch => {
+			let monkey = entities.player;
+			const monkeyPrevPositionX = monkey.body.position.x;
+	
+			if (monkey && monkeyPrevPositionX) {
+				let newMonkeyPositionX = monkeyPrevPositionX + touch.delta.pageX;
+				if (newMonkeyPositionX > windowWidth - PLAYER_WIDTH_OFFSET) {
+					newMonkeyPositionX = windowWidth - PLAYER_WIDTH_OFFSET;
+				}
+				if (newMonkeyPositionX <= PLAYER_WIDTH_OFFSET) {
+					newMonkeyPositionX = PLAYER_WIDTH_OFFSET;
+				}
+				Matter.Body.setPosition(this.playerBox, {
+					x: newMonkeyPositionX,
+					y: PLAYER_Y_FIXED,
+				});
+			}
+		});
+	
+		return entities;
+	};
 
-  componentDidMount() {
-    // Accelerometer refresh rate
-    setUpdateIntervalForType(
-      SensorTypes.accelerometer,
-      DEFAULT_ACCELERATOR_INTERVAL,
-    )
+  // componentDidMount() {
+  //   // Accelerometer refresh rate
+  //   setUpdateIntervalForType(
+  //     SensorTypes.accelerometer,
+  //     DEFAULT_ACCELERATOR_INTERVAL,
+  //   )
 
-    setLogLevelForType(SensorTypes.accelerometer, 0)
+  //   setLogLevelForType(SensorTypes.accelerometer, 0)
 
-    // Accelerometer event listener
-    this.accelerometerSubscription = accelerometer.subscribe(({x}) => {
-      if (!this.state.running) return;
+  //   // Accelerometer event listener
+  //   this.accelerometerSubscription = accelerometer.subscribe(({x}) => {
+  //     if (!this.state.running) return;
 
-      const new_x = this.state.x - x;
+  //     const new_x = this.state.x - x;
 
-      // Prevent player entity from moving out of bounds
-      if (new_x < PLAYER_WIDTH_OFFSET || new_x > width - PLAYER_WIDTH_OFFSET) {
-        return
-      };
+  //     // Prevent player entity from moving out of bounds
+  //     if (new_x < PLAYER_WIDTH_OFFSET || new_x > width - PLAYER_WIDTH_OFFSET) {
+  //       return
+  //     };
 
-      // Update player's position
-      Matter.Body.setPosition(this.playerBox, {
-        x: new_x,
-        y: PLAYER_Y_FIXED,
-      })
+  //     // Update player's position
+  //     Matter.Body.setPosition(this.playerBox, {
+  //       x: new_x,
+  //       y: PLAYER_Y_FIXED,
+  //     })
 
-      this.setState({x: new_x})
-    })
-  };
+  //     this.setState({x: new_x})
+  //   })
+  // };
 
-  componentWillUnmount() {
-    this.accelerometerSubscription.unsubscribe();
-  };
+  // componentWillUnmount() {
+  //   this.accelerometerSubscription.unsubscribe();
+  // };
 
   _setupWorld = () => {
     const engine = Matter.Engine.create({enableSleeping: false});
@@ -253,7 +277,7 @@ export default class App extends PureComponent {
             style={styles.gameContainer}
             onEvent={this._onEvent}
             running={running}
-            systems={[Physics, Generator, Destroyer]}
+            systems={[Physics, Generator, Destroyer, this.monkeyMovement]}
             entities={this.entities}
           />
 					{!running && pause && (
