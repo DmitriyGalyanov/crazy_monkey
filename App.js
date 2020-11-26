@@ -37,11 +37,9 @@ export default class App extends PureComponent {
 
     this.state = {
       running: true,
-			// showSettings: false,
 			pause: false,
       // Initial game states
-      // interval: 0, // Game day interval
-      cash: STARTING_CASH,
+      score: STARTING_CASH,
       daysLasted: 0,
       x: PLAYER_X_START,
       y: PLAYER_Y_FIXED,
@@ -96,9 +94,7 @@ export default class App extends PureComponent {
     this.playerBox = Matter.Bodies.rectangle(
       PLAYER_X_START,
       PLAYER_Y_FIXED,
-			// playerEntityWidth,
 			playerPhysicalWidth,
-			// 50,
       playerEntityHeight,
       {isStatic: true, label: 'player'},
     )
@@ -146,7 +142,7 @@ export default class App extends PureComponent {
       player: {
         body: this.playerBox,
 				size: [playerEntityWidth, playerEntityHeight],
-				physicalWidth: playerPhysicalWidth,
+				// physicalWidth: playerPhysicalWidth,
 				renderer: Monkey,
       },
       deleted: [],
@@ -165,27 +161,6 @@ export default class App extends PureComponent {
     }
   }
 
-  // _handleDayIncrement = (interval) => {
-  //   this.setState(
-  //     (prevState) => ({
-  //       interval: prevState.interval + interval,
-  //     }),
-  //     () => {
-  //       if (this.state.interval > DAY_INTERVAL) {
-  //         this.setState((prev) => ({
-  //           daysLasted: prev.daysLasted + 1,
-  //           interval: 0,
-  //         }))
-
-  //         // Game over
-  //         // if (this.state.cash < 0) {
-  //         //   this._gameOver()
-  //         // }
-  //       }
-  //     },
-  //   )
-  // }
-
   _handleEntityCollision = (entityType) => {
 		const entityDetails = ENTITY_DETAILS[entityType]
 		if (entityDetails.name === 'spike') {
@@ -194,7 +169,7 @@ export default class App extends PureComponent {
 
     // Calculate the effects of the entity
     this.setState((prevState) => ({
-      cash: prevState.cash + entityDetails.cash,
+      score: prevState.score + entityDetails.score,
     }))
 	}
 	
@@ -235,7 +210,7 @@ export default class App extends PureComponent {
 			pause: false,
       // Initial game states
       // interval: 0,
-      cash: STARTING_CASH,
+      score: STARTING_CASH,
       daysLasted: 0,
       x: PLAYER_X_START,
       y: PLAYER_Y_FIXED,
@@ -243,9 +218,9 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {cash, daysLasted, running, pause} = this.state
+    const {score, daysLasted, running, pause} = this.state
 
-    const cashStyle = cash < 0 ? {color: '#9E0000'} : {color: 'green'}
+    const scoreStyle = score < 0 ? {color: '#9E0000'} : {color: 'green'}
 
     return (
       <View style={styles.container}>
@@ -254,8 +229,8 @@ export default class App extends PureComponent {
           <View style={styles.topContainer}>
             <View style={styles.statRow}>
               <View style={{flex: 3}}>
-                <View style={styles.cashContainer}>
-                  <Text style={[styles.cash, cashStyle]}>{cash}</Text>
+                <View style={styles.scoreContainer}>
+                  <Text style={[styles.score, scoreStyle]}>{score}</Text>
                 </View>
               </View>
               <CircleButton
@@ -277,8 +252,11 @@ export default class App extends PureComponent {
 					{!running && pause && (
 						<PauseOverlay onPress={this.removePause} />
 					)}
-          {!running && !pause && (
+          {/* {!running && !pause && (
             <GameOverScreen daysLasted={daysLasted} reset={this._reset} />
+          )} */}
+					{!running && !pause && (
+            <GameOverScreen score={score} reset={this._reset} />
           )}
         </View>
       </View>
@@ -312,12 +290,12 @@ const styles = StyleSheet.create({
     flex: 0.9,
     flexDirection: 'row',
   },
-  cashContainer: {
+  scoreContainer: {
     alignSelf: 'center',
     flexDirection: 'row',
     marginTop: 10,
   },
-  cash: {
+  score: {
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',

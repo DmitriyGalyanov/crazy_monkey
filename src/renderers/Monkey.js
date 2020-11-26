@@ -4,8 +4,6 @@ import {Image} from 'react-native';
 
 import monkeyImg from 'images/monkey.png';
 
-import {monkeyDims, bottomPadding} from '../../constants'; //mda
-
 
 export default function Monkey({size, body}) {
 	const width = size[0];
@@ -18,8 +16,8 @@ export default function Monkey({size, body}) {
 			<Image
 				source={monkeyImg}
 				style={{
-					width: monkeyDims.width,
-					height: monkeyDims.height,
+					width: width,
+					height: height,
 					position: 'absolute',
 					left: x,
 					top: y,

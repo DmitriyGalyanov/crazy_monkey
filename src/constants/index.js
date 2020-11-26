@@ -33,43 +33,43 @@ export const ENTITY_DETAILS = {
 		height: itemHeight,
 		width: itemWidth,
 		name: 'gem',
-		cash: 4,
+		score: 4,
 		probability: 0.015,
 	},
 	bigGem: {
 		height: itemHeight,
 		width: itemWidth,
 		name: 'bigGem',
-		cash: 6,
+		score: 6,
 		probability: 0.01,
 	},
 	goldCoin: {
 		height: itemHeight,
 		width: itemWidth,
 		name: 'goldCoin',
-		cash: 1,
+		score: 1,
 		probability: 0.02,
 	},
 	threeBigGems: {
 		height: itemHeight,
 		width: itemWidth,
 		name: 'threeBigGems',
-		cash: 18,
+		score: 18,
 		probability: 0.002,
 	},
 	threeGoldCoins: {
 		height: itemHeight,
 		width: itemWidth,
 		name: 'threeGoldCoins',
-		cash: 3,
+		score: 3,
 		probability: 0.015,
 	},
 	spike: {
 		height: itemHeight,
 		width: itemWidth,
 		name: 'spike',
-		cash: 0,
-		probability: 0.012,
+		score: 0,
+		probability: 0.018,
 	},
 }
 
@@ -82,8 +82,6 @@ export const playerPhysicalHeight = 100;
 export const playerEntityWidth = 168;
 export const playerEntityHeight = 280;
 
-// export const playerEntityWidth = 168;
-// export const playerEntityHeight = 280;
 export const PLAYER_X_START = windowWidth / 2;
 export const PLAYER_Y_FIXED = windowHeight - playerEntityHeight - bottomPadding - 24;
 
