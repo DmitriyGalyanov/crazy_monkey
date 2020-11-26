@@ -7,7 +7,7 @@ const Physics = (entities, {time, dispatch}) => {
   Matter.Engine.update(engine, timeInterval)
 
   dispatch({
-    type: 'increment-day-interval',
+    // type: 'increment-day-interval',
     value: Number(timeInterval),
   })
 

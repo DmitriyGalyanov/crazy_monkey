@@ -6,12 +6,13 @@ import {Entity, Monkey} from './src/renderers/index'
 import {
   INITIAL_GRAVITY,
   THEME_COLOR,
-  DAY_INTERVAL,
+  // DAY_INTERVAL,
   PLAYER_X_START,
   PLAYER_Y_FIXED,
   STARTING_CASH,
-  PLAYER_ENTITY_WIDTH,
-  PLAYER_ENTITY_HEIGHT,
+	playerEntityWidth,
+	playerPhysicalWidth,
+  playerEntityHeight,
   PLAYER_WIDTH_OFFSET,
   DEFAULT_ACCELERATOR_INTERVAL,
   ENTITY_DETAILS,
@@ -39,7 +40,7 @@ export default class App extends PureComponent {
 			// showSettings: false,
 			pause: false,
       // Initial game states
-      interval: 0, // Game day interval
+      // interval: 0, // Game day interval
       cash: STARTING_CASH,
       daysLasted: 0,
       x: PLAYER_X_START,
@@ -95,8 +96,10 @@ export default class App extends PureComponent {
     this.playerBox = Matter.Bodies.rectangle(
       PLAYER_X_START,
       PLAYER_Y_FIXED,
-      PLAYER_ENTITY_WIDTH,
-      PLAYER_ENTITY_HEIGHT,
+			// playerEntityWidth,
+			playerPhysicalWidth,
+			// 50,
+      playerEntityHeight,
       {isStatic: true, label: 'player'},
     )
 
@@ -142,7 +145,8 @@ export default class App extends PureComponent {
       physics: {engine: engine, world: world},
       player: {
         body: this.playerBox,
-        size: [PLAYER_ENTITY_WIDTH, PLAYER_ENTITY_HEIGHT],
+				size: [playerEntityWidth, playerEntityHeight],
+				physicalWidth: playerPhysicalWidth,
 				renderer: Monkey,
       },
       deleted: [],
@@ -152,35 +156,35 @@ export default class App extends PureComponent {
   // Game mechanics happen here
   _onEvent = (e) => {
     switch (e.type) {
-      case 'increment-day-interval':
-        this._handleDayIncrement(e.value)
-        break
+      // case 'increment-day-interval':
+        // this._handleDayIncrement(e.value)
+        // break
       case 'entity-collision':
         this._handleEntityCollision(e.entityType, e.xPos)
         break
     }
   }
 
-  _handleDayIncrement = (interval) => {
-    this.setState(
-      (prevState) => ({
-        interval: prevState.interval + interval,
-      }),
-      () => {
-        if (this.state.interval > DAY_INTERVAL) {
-          this.setState((prev) => ({
-            daysLasted: prev.daysLasted + 1,
-            interval: 0,
-          }))
+  // _handleDayIncrement = (interval) => {
+  //   this.setState(
+  //     (prevState) => ({
+  //       interval: prevState.interval + interval,
+  //     }),
+  //     () => {
+  //       if (this.state.interval > DAY_INTERVAL) {
+  //         this.setState((prev) => ({
+  //           daysLasted: prev.daysLasted + 1,
+  //           interval: 0,
+  //         }))
 
-          // Game over
-          if (this.state.cash < 0) {
-            this._gameOver()
-          }
-        }
-      },
-    )
-  }
+  //         // Game over
+  //         // if (this.state.cash < 0) {
+  //         //   this._gameOver()
+  //         // }
+  //       }
+  //     },
+  //   )
+  // }
 
   _handleEntityCollision = (entityType) => {
 		const entityDetails = ENTITY_DETAILS[entityType]
@@ -230,7 +234,7 @@ export default class App extends PureComponent {
       running: true,
 			pause: false,
       // Initial game states
-      interval: 0,
+      // interval: 0,
       cash: STARTING_CASH,
       daysLasted: 0,
       x: PLAYER_X_START,
