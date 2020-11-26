@@ -1,7 +1,7 @@
-import GameOverScreen from './GameOver'
-import SettingsScreen from './Settings'
+import GameOverScreen from './GameOver';
+import PauseOverlay from './PauseOverlay';
 
 module.exports = {
-  GameOverScreen,
-  SettingsScreen,
+	GameOverScreen,
+	PauseOverlay,
 }

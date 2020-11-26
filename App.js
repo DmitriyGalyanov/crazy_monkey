@@ -26,7 +26,7 @@ import {
 } from 'react-native-sensors'
 import {CircleButton} from './src/components/index'
 import Images from './assets/index'
-import {GameOverScreen, SettingsScreen} from './src/screens/index'
+import {GameOverScreen, PauseOverlay} from './src/screens/index'
 
 const {width, height} = Dimensions.get('screen')
 
@@ -36,7 +36,8 @@ export default class App extends PureComponent {
 
     this.state = {
       running: true,
-      showSettings: false,
+			// showSettings: false,
+			pause: false,
       // Initial game states
       interval: 0, // Game day interval
       cash: STARTING_CASH,
@@ -184,7 +185,6 @@ export default class App extends PureComponent {
   _handleEntityCollision = (entityType) => {
 		const entityDetails = ENTITY_DETAILS[entityType]
 		if (entityDetails.name === 'spike') {
-			//game over here
 			this._gameOver();
 		}
 
@@ -192,15 +192,14 @@ export default class App extends PureComponent {
     this.setState((prevState) => ({
       cash: prevState.cash + entityDetails.cash,
     }))
-  }
-
-  _showSettings = () => {
-    this.setState({running: false, showSettings: true})
-  }
-
-  _hideSettings = () => {
-    this.setState({running: true, showSettings: false})
-  }
+	}
+	
+	setPause = () => {
+		this.setState({running: false, pause: true});
+	};
+	removePause = () => {
+		this.setState({running: true, pause: false});
+	}
 
   /**
    * Remove all non-player entities and prepare for a new game
@@ -229,7 +228,7 @@ export default class App extends PureComponent {
     this._resetEntities()
     this.setState({
       running: true,
-      showSettings: false,
+			pause: false,
       // Initial game states
       interval: 0,
       cash: STARTING_CASH,
@@ -240,7 +239,7 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {cash, daysLasted, running, showSettings} = this.state
+    const {cash, daysLasted, running, pause} = this.state
 
     const cashStyle = cash < 0 ? {color: '#9E0000'} : {color: 'green'}
 
@@ -257,7 +256,7 @@ export default class App extends PureComponent {
               </View>
               <CircleButton
                 image={Images.settings}
-                onPress={this._showSettings}
+								onPress={this.setPause}
                 borderStyle={styles.settingsBtnBorder}
                 iconStyle={styles.settingsBtnIcon}
               />
@@ -271,10 +270,10 @@ export default class App extends PureComponent {
             systems={[Physics, Generator, Destroyer]}
             entities={this.entities}
           />
-          {!running && showSettings && (
-            <SettingsScreen onPress={this._hideSettings} />
-          )}
-          {!running && !showSettings && (
+					{!running && pause && (
+						<PauseOverlay onPress={this.removePause} />
+					)}
+          {!running && !pause && (
             <GameOverScreen daysLasted={daysLasted} reset={this._reset} />
           )}
         </View>
