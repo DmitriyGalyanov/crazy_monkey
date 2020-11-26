@@ -18,8 +18,8 @@ export const DEFAULT_ACCELERATOR_INTERVAL = 20;
 
 // falling items settings
 export const itemsLimit = 7;
-export const itemWidth = 113;
-export const itemHeight = 100;
+export const itemWidth = 84.75;
+export const itemHeight = 75;
 export const ENTITY_LIST = [
 	'gem',
 	'bigGem',
@@ -74,12 +74,13 @@ export const ENTITY_DETAILS = {
 }
 
 // Player entity settings
-export const playerPhysicalWidth = 100;
-export const playerPhysicalHeight = 100;
-export const playerImgWidth = 168;
-export const playerImgHeight = 280;
+export const playerPhysicalWidth = 72;
+export const playerPhysicalHeight = 72;
+export const playerImgWidth = 120;
+export const playerImgHeight = 200;
 
 export const PLAYER_X_START = windowWidth / 2;
-export const PLAYER_Y_FIXED = windowHeight - playerImgHeight - bottomPadding - 24;
+// export const PLAYER_Y_FIXED = windowHeight - playerImgHeight - bottomPadding - 24;
+export const PLAYER_Y_FIXED = windowHeight - playerImgHeight * 1.5;
 
 export const PLAYER_WIDTH_OFFSET = Math.ceil(playerImgWidth / 2); //
