@@ -1,6 +1,6 @@
 import Matter from 'matter-js';
 import {Dimensions} from 'react-native';
-import {ENTITY_DETAILS, itemsLimit} from '../constants/index';
+import {ENTITY_DETAILS, itemsLimit, windowWidth} from 'constants';
 
 const {width} = Dimensions.get('window');
 
@@ -83,7 +83,7 @@ const _replaceEntity = (
   Matter.Body.set(entity, {
     id: Matter.Common.nextId(),
     position: {
-      x: getRandomInt(widthOffset, width - widthOffset),
+      x: getRandomInt(widthOffset, windowWidth - widthOffset),
       y: 0,
     },
     velocity: {
@@ -113,7 +113,7 @@ const _createEntity = (
 ) => {
   const widthOffset = Math.floor(entityDetails.width / 2)
   const entity = Matter.Bodies.rectangle(
-    getRandomInt(widthOffset, width - widthOffset), // Always start at the top of screen with random x-value
+    getRandomInt(widthOffset, windowWidth - widthOffset), // Always start at the top of screen with random x-value
     0,
     entityDetails.width,
     entityDetails.height,

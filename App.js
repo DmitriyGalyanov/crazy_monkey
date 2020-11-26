@@ -1,61 +1,54 @@
 import React, {PureComponent} from 'react';
 import {
-	Dimensions,
 	ImageBackground,
 	StatusBar,
 	StyleSheet,
 	Text,
 	View,
 } from 'react-native';
+
 import Matter from 'matter-js';
 import {GameEngine} from 'react-native-game-engine';
-import {Monkey} from './src/renderers/index';
+
+import {Monkey} from 'renderers';
+import {Physics, Generator, Destroyer} from 'systems';
+import {removeEntity} from 'helpers';
+import {CircleButton} from 'components';
+import {GameOverScreen, PauseOverlay} from 'screens';
+
 import {
-  INITIAL_GRAVITY,
-	THEME_COLOR,
+	INITIAL_GRAVITY,
 	contrastColor,
-  PLAYER_X_START,
-  PLAYER_Y_FIXED,
-  startingScore,
+	PLAYER_X_START,
+	PLAYER_Y_FIXED,
+	startingScore,
 	playerImgWidth,
 	playerPhysicalWidth,
-  playerImgHeight,
-  PLAYER_WIDTH_OFFSET,
-	DEFAULT_ACCELERATOR_INTERVAL,
+	playerImgHeight,
+	PLAYER_WIDTH_OFFSET,
 	windowWidth,
-  ENTITY_DETAILS,
-} from './src/constants';
-import {Physics, Generator, Destroyer} from './src/systems/index';
-import {removeEntity} from './src/helpers/index';
-import {
-  accelerometer,
-  setLogLevelForType,
-  setUpdateIntervalForType,
-  SensorTypes,
-} from 'react-native-sensors';
-import {CircleButton} from './src/components/index';
-import images from 'images';
-import {GameOverScreen, PauseOverlay} from './src/screens/index';
+	windowHeight,
+	ENTITY_DETAILS,
+} from 'constants';
 
+import images from 'images';
 import background from 'images/background.jpg';
 
-const {width, height} = Dimensions.get('screen');
 
 export default class App extends PureComponent {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      running: true,
+	constructor(props) {
+		super(props)
+		this.state = {
+			running: true,
 			pause: false,
-      // Initial game states
-      score: startingScore,
-      x: PLAYER_X_START,
-      y: PLAYER_Y_FIXED,
-    }
+			// Initial game states
+			score: startingScore,
+			x: PLAYER_X_START,
+			y: PLAYER_Y_FIXED,
+		}
 
-    this.gameEngine = null;
-    this.entities = this._setupWorld();
+		this.gameEngine = null;
+		this.entities = this._setupWorld();
 	}
 	
 	monkeyMovement = (entities, { touches }) => {
@@ -80,40 +73,6 @@ export default class App extends PureComponent {
 	
 		return entities;
 	};
-
-  // componentDidMount() {
-  //   // Accelerometer refresh rate
-  //   setUpdateIntervalForType(
-  //     SensorTypes.accelerometer,
-  //     DEFAULT_ACCELERATOR_INTERVAL,
-  //   )
-
-  //   setLogLevelForType(SensorTypes.accelerometer, 0)
-
-  //   // Accelerometer event listener
-  //   this.accelerometerSubscription = accelerometer.subscribe(({x}) => {
-  //     if (!this.state.running) return;
-
-  //     const new_x = this.state.x - x;
-
-  //     // Prevent player entity from moving out of bounds
-  //     if (new_x < PLAYER_WIDTH_OFFSET || new_x > width - PLAYER_WIDTH_OFFSET) {
-  //       return
-  //     };
-
-  //     // Update player's position
-  //     Matter.Body.setPosition(this.playerBox, {
-  //       x: new_x,
-  //       y: PLAYER_Y_FIXED,
-  //     })
-
-  //     this.setState({x: new_x})
-  //   })
-  // };
-
-  // componentWillUnmount() {
-  //   this.accelerometerSubscription.unsubscribe();
-  // };
 
   _setupWorld = () => {
     const engine = Matter.Engine.create({enableSleeping: false});
@@ -172,7 +131,6 @@ export default class App extends PureComponent {
       player: {
         body: this.playerBox,
 				size: [playerImgWidth, playerImgHeight],
-				// physicalWidth: playerPhysicalWidth,
 				renderer: Monkey,
       },
       deleted: [],
@@ -182,12 +140,9 @@ export default class App extends PureComponent {
   // Game mechanics happen here
   _onEvent = (e) => {
     switch (e.type) {
-      // case 'increment-day-interval':
-        // this._handleDayIncrement(e.value)
-        // break
       case 'entity-collision':
-        this._handleEntityCollision(e.entityType, e.xPos)
-        break
+        this._handleEntityCollision(e.entityType, e.xPos);
+        break;
     }
   };
 
@@ -197,10 +152,10 @@ export default class App extends PureComponent {
 			this._gameOver();
 		}
 
-    // Calculate the effects of the entity
-    this.setState((prevState) => ({
-      score: prevState.score + entityDetails.score,
-    }))
+		// Calculate the effects of the entity
+		this.setState((prevState) => ({
+			score: prevState.score + entityDetails.score,
+		}))
 	};
 	
 	setPause = () => {
@@ -233,33 +188,35 @@ export default class App extends PureComponent {
     });
   };
 
-  _reset = () => {
-    this._resetEntities()
-    this.setState({
-      running: true,
+	_reset = () => {
+		this._resetEntities();
+		this.setState({
+			running: true,
 			pause: false,
-      // Initial game states
-      score: startingScore,
-      x: PLAYER_X_START,
-      y: PLAYER_Y_FIXED,
-    });
-  };
+			// Initial game states
+			score: startingScore,
+			x: PLAYER_X_START,
+			y: PLAYER_Y_FIXED,
+		});
+	};
 
-  render() {
-    const {score, running, pause} = this.state;
+	render() {
+		const {score, running, pause} = this.state;
 
-    return (
+		return (
 			<ImageBackground
 				source={background}
 				style={styles.container}
 			>
 				<StatusBar hidden={true} />
-        <View style={styles.container}>
-          <View style={styles.topContainer}>
-            <View style={styles.statRow}>
-              <View style={{flex: 3}}>
-                <View style={styles.scoreContainer}>
-                  <Text style={[styles.score, {color: contrastColor}]}>{score}</Text>
+				<View style={styles.container}>
+					<View style={styles.topContainer}>
+						<View style={styles.statRow}>
+							<View style={{flex: 3}}>
+								<View style={styles.scoreContainer}>
+									<Text style={[styles.score, {color: contrastColor}]}>
+										{score}
+									</Text>
                 </View>
               </View>
 							{!pause && running && (
@@ -270,26 +227,26 @@ export default class App extends PureComponent {
 									iconStyle={styles.settingsBtnIcon}
 								/>
 							)}
-            </View>
-          </View>
-          <GameEngine
+						</View>
+					</View>
+					<GameEngine
             ref={(ref) => (this.gameEngine = ref)}
-            style={styles.gameContainer}
-            onEvent={this._onEvent}
-            running={running}
-            systems={[Physics, Generator, Destroyer, this.monkeyMovement]}
-            entities={this.entities}
-          />
+						style={styles.gameContainer}
+						onEvent={this._onEvent}
+						running={running}
+						systems={[Physics, Generator, Destroyer, this.monkeyMovement]}
+						entities={this.entities}
+					/>
 					{!running && pause && (
 						<PauseOverlay onPress={this.removePause} />
 					)}
 					{!running && !pause && (
 						<GameOverScreen score={score} reset={this._reset} />
 					)}
-        </View>
-      </ImageBackground>
-    )
-  }
+				</View>
+			</ImageBackground>
+		)
+	}
 }
 
 const styles = StyleSheet.create({
@@ -300,7 +257,7 @@ const styles = StyleSheet.create({
 	},
 	gameContainer: {
 		position: 'absolute',
-		top: height * 0.2,
+		top: windowHeight * 0.2,
 		bottom: 0,
 		left: 0,
 		right: 0,
