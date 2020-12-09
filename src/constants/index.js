@@ -86,3 +86,8 @@ export const PLAYER_Y_FIXED = windowHeight - playerImgHeight * 1.5;
 
 export const horizontalOffset = 12;
 export const PLAYER_WIDTH_OFFSET = Math.ceil(playerImgWidth / 2); //
+
+
+
+//
+export const appsflyerDevKey = 'tzTMezPNAAJ2jKPjNJezui';
