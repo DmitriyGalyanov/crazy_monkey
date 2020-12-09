@@ -131,7 +131,7 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.crazy_monkey"
+        applicationId "com.gamme.smarty.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

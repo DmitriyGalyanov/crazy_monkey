@@ -1,4 +1,4 @@
-package com.crazy_monkey;
+package com.gamme.smarty.app;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "389728442808",
-    "firebase_url": "https://crazy-monkey-78f32.firebaseio.com",
-    "project_id": "crazy-monkey-78f32",
-    "storage_bucket": "crazy-monkey-78f32.appspot.com"
+    "project_number": "636241714789",
+    "project_id": "smarty-game",
+    "storage_bucket": "smarty-game.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:389728442808:android:a18028d96deeec72ed174d",
+        "mobilesdk_app_id": "1:636241714789:android:edb5cac06b2287d238708c",
         "android_client_info": {
-          "package_name": "com.crazy_monkey"
+          "package_name": "com.gamme.smarty.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "389728442808-qd4njlnsh3nnol9ad7sb2rjc49smhtgu.apps.googleusercontent.com",
+          "client_id": "636241714789-8t50dif4rh4ed17ronbojlcb3lqd0vk0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD7kTk_XqxwNWLIQONc8BTFyUz_tIZlCMk"
+          "current_key": "AIzaSyD0ObIlhupZIpLFToVCGKJZgScY_4DKv6Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "389728442808-qd4njlnsh3nnol9ad7sb2rjc49smhtgu.apps.googleusercontent.com",
+              "client_id": "636241714789-8t50dif4rh4ed17ronbojlcb3lqd0vk0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
