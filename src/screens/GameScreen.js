@@ -14,7 +14,9 @@ import {Monkey} from 'renderers';
 import {Physics, Generator, Destroyer} from 'systems';
 import {removeEntity} from 'helpers';
 import {CircleButton} from 'components';
-import {GameOverScreen, PauseOverlay} from 'screens';
+// import {GameOverScreen, PauseOverlay} from 'screens';
+import GameOverScreen from './GameOverOverlay';
+import PauseOverlay from './PauseOverlay';
 
 import {
 	INITIAL_GRAVITY,

@@ -91,3 +91,4 @@ export const PLAYER_WIDTH_OFFSET = Math.ceil(playerImgWidth / 2); //
 
 //
 export const appsflyerDevKey = 'tzTMezPNAAJ2jKPjNJezui';
+export const bundleName = 'com.gamme.smarty.app';
